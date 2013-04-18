@@ -22,6 +22,8 @@ Depending on the BuddyPress settings, the access to the BuddyDrive user's conten
 
 This plugin is available in english and french.
 
+http://vimeo.com/64323101
+
 <strong>NB : make sure to activate the plugin in the network admin if you run a multisite WordPress</strong>
 
 == Installation ==
