@@ -2,17 +2,17 @@
 Contributors: imath
 Donate link: http://imathi.eu/donations/
 Tags: BuddyPress, files, folders
-Requires at least: 3.5.1
-Tested up to: 3.5.1
-Stable tag: 1.0
+Requires at least: 3.5.2
+Tested up to: 3.6
+Stable tag: 1.1
 License: GPLv2
 
 Share files the BuddyPress way!
 
 == Description ==
 
-BuddyDrive is a BuddyPress 1.7 plugin that uses WordPress built in features for the management of its post attachments to allow the members of a community to share a file or a list of files thanks to the BuddyDrive folders.
-Depending on the BuddyPress settings, the access to the BuddyDrive user's content can be restricted to
+BuddyDrive is a BuddyPress plugin (it requires at least version 1.7) that uses WordPress built in features for the management of its post attachments to allow the members of a community to share a file or a list of files thanks to the BuddyDrive folders.
+Depending on the BuddyPress settings, the access to the BuddyDrive user's content can be restricted to :
 
 * the owner of the item only,
 * people that know the password the owner set for his item,
@@ -48,12 +48,23 @@ Please add a comment <a href="http://imathi.eu/tag/buddydrive/">here</a>
 
 == Changelog ==
 
+= 1.1 =
+* fixes the bug with hidden groups.
+* brings cutomizable slugs and names.
+* brings more control over users upload quota (by role or even by user).
+* adds an information in network administration users list or blog administration users list. 
+* BuddyDrive can now be automatically activated for newly created groups.
+* tested in BuddyPress 1.8 & still requires at least version 1.7
+
 = 1.0 =
 * files, folders management for users
 * Requires BuddyPress 1.7
 * language supported : french, english
 
 == Upgrade Notice ==
+
+= 1.1 =
+Nothing particular, but just in case, you should make a db backup before upgrading. Requires at least BuddyPress 1.7. Tested in BuddyPress 1.8.
 
 = 1.0 =
 first version of the plugin, so nothing particular.
