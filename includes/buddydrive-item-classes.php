@@ -238,7 +238,8 @@ class BuddyDrive_Item
 						
 						if( !bp_is_my_profile() ) {
 							$privacy[] = 'private';
-							$privacy[] = 'password';
+							/* Password protected should be displayed.. so commenting here in case user's feedback invalids this */
+							//$privacy[] = 'password';
 							
 							if( bp_is_active( 'friends' ) && !friends_check_friendship( $user_id, bp_loggedin_user_id() ) )
 								$privacy[] = 'friends';
