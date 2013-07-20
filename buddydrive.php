@@ -3,7 +3,7 @@
 Plugin Name: Buddydrive
 Plugin URI: http://imathi.eu/tag/buddydrive/
 Description: A plugin to share files, the BuddyPress way!
-Version: 1.0
+Version: 1.1
 Author: imath
 Author URI: http://imathi.eu/
 License: GPLv2
@@ -58,9 +58,9 @@ class BuddyDrive {
 	
 	private function __construct() { /* Do nothing here */ }
 	
-	public function __clone() { _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'buddydrive' ), '1.0' ); }
+	public function __clone() { _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'buddydrive' ), '1.1' ); }
 
-	public function __wakeup() { _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'buddydrive' ), '1.0' ); }
+	public function __wakeup() { _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'buddydrive' ), '1.1' ); }
 
 	public function __isset( $key ) { return isset( $this->data[$key] ); }
 
@@ -87,15 +87,15 @@ class BuddyDrive {
 
 		/** Version ***********************************************************/
 
-		$this->version    = '1.0';
+		$this->version    = '1.1';
 
 		/** Paths *************************************************************/
 
 		// Setup some base path and URL information
 		$this->file       = __FILE__;
 		$this->basename   = apply_filters( 'buddydrive_plugin_basename', plugin_basename( $this->file ) );
-		$this->plugin_dir = apply_filters( 'buddydrive_plugin_dir_path',  plugin_dir_path( $this->file ) );
-		$this->plugin_url = apply_filters( 'buddydrive_plugin_dir_url',   plugin_dir_url ( $this->file ) );
+		$this->plugin_dir = apply_filters( 'buddydrive_plugin_dir_path', plugin_dir_path( $this->file ) );
+		$this->plugin_url = apply_filters( 'buddydrive_plugin_dir_url',  plugin_dir_url ( $this->file ) );
 
 		// Includes
 		$this->includes_dir = apply_filters( 'buddydrive_includes_dir', trailingslashit( $this->plugin_dir . 'includes'  ) );
@@ -105,14 +105,14 @@ class BuddyDrive {
 		$this->images_url = apply_filters( 'buddydrive_images_url', trailingslashit( $this->includes_url . 'images'  ) );
 
 		// Languages
-		$this->lang_dir     = apply_filters( 'buddydrive_lang_dir',     trailingslashit( $this->plugin_dir . 'languages' ) );
+		$this->lang_dir     = apply_filters( 'buddydrive_lang_dir', trailingslashit( $this->plugin_dir . 'languages' ) );
 		
 		// BuddyDrive slug and name
 		$this->buddydrive_slug = apply_filters( 'buddydrive_slug', 'buddydrive' );
 		$this->buddydrive_name = apply_filters( 'buddydrive_name', 'BuddyDrive' );
 
 		// Post type identifiers
-		$this->buddydrive_file_post_type   = apply_filters( 'buddydrive_file_post_type',   'buddydrive-file' );
+		$this->buddydrive_file_post_type   = apply_filters( 'buddydrive_file_post_type',     'buddydrive-file' );
 		$this->buddydrive_folder_post_type = apply_filters( 'buddydrive_folder_post_type', 'buddydrive-folder' );
 
 
@@ -132,11 +132,11 @@ class BuddyDrive {
 	 * @uses is_admin() for the settings files
 	 */
 	private function includes() {
-		require( $this->includes_dir . 'buddydrive-actions.php'        );
-		require( $this->includes_dir . 'buddydrive-functions.php'        );
+		require( $this->includes_dir . 'buddydrive-actions.php'         );
+		require( $this->includes_dir . 'buddydrive-functions.php'       );
 		
 		if( is_admin() ){
-			require( $this->includes_dir . 'admin/buddydrive-admin.php'        );
+			require( $this->includes_dir . 'admin/buddydrive-admin.php' );
 		}
 	}
 	
@@ -155,8 +155,8 @@ class BuddyDrive {
 		add_action( 'activate_'   . $this->basename, 'buddydrive_activation'   );
 		add_action( 'deactivate_' . $this->basename, 'buddydrive_deactivation' );
 		
-		add_action( 'bp_init', array( $this, 'load_textdomain' ), 6 );
-		add_action( 'bp_include', array( $this, 'load_component' ) );
+		add_action( 'bp_init',    array( $this, 'load_textdomain' ), 6 );
+		add_action( 'bp_include', array( $this, 'load_component'  )    );
 
 		do_action_ref_array( 'buddydrive_after_setup_actions', array( &$this ) );
 	}
