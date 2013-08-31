@@ -245,7 +245,19 @@ class BuddyDrive_Group extends BP_Group_Extension {
 	}
 }
 
+/**
+ * Waits for bp_init hook before loading the group extension
+ *
+ * Let's make sure the group id is defined before loading our stuff
+ * 
+ * @since 1.1.1
+ * 
+ * @uses bp_register_group_extension() to register the group extension
+ */
+function buddydrive_register_group_extension() {
+	bp_register_group_extension( 'BuddyDrive_Group' );
+}
 
-bp_register_group_extension( 'BuddyDrive_Group' );
+add_action( 'bp_init', 'buddydrive_register_group_extension' );
 
 endif;
