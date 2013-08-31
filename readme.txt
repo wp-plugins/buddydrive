@@ -4,7 +4,7 @@ Donate link: http://imathi.eu/donations/
 Tags: BuddyPress, files, folders
 Requires at least: 3.5.2
 Tested up to: 3.6
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2
 
 Share files the BuddyPress way!
@@ -48,6 +48,10 @@ Please add a comment <a href="http://imathi.eu/tag/buddydrive/">here</a>
 
 == Changelog ==
 
+= 1.1.1 =
+* fixes a bug reported by a user in BuddyDrive files and folders admin (Checks WP_List_Table)
+* Modifies the way BuddyDrive group extension is loaded (waits for bp_init to be sure group id is set)
+
 = 1.1 =
 * fixes the bug with hidden groups.
 * brings cutomizable slugs and names.
@@ -62,6 +66,9 @@ Please add a comment <a href="http://imathi.eu/tag/buddydrive/">here</a>
 * language supported : french, english
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+Nothing particular, but just in case, you should make a db backup before upgrading. Requires at least BuddyPress 1.7. Tested in BuddyPress 1.8.1
 
 = 1.1 =
 Nothing particular, but just in case, you should make a db backup before upgrading. Requires at least BuddyPress 1.7. Tested in BuddyPress 1.8.
