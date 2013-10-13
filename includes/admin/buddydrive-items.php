@@ -866,7 +866,7 @@ class BuddyDrive_List_Table extends WP_List_Table {
 	 * @since BuddyDrive (1.0)
 	 */
 	function get_columns() {
-		return array(
+		return apply_filters( 'buddydrive_list_table_columns', array(
 			'cb'          => '<input name type="checkbox" />',
 			'comment'     => _x( 'Name', 'BuddyDrive admin Item Name column header',               'buddydrive' ),
 			'description' => _x( 'Description', 'BuddyDrive admin Item Description column header', 'buddydrive' ),
@@ -874,7 +874,7 @@ class BuddyDrive_List_Table extends WP_List_Table {
 			'owner'       => _x( 'Owner', 'BuddyDrive admin Owner column header',                  'buddydrive' ),
 			'mime_type'   => _x( 'Mime type', 'BuddyDrive admin Mime type column header',          'buddydrive' ),
 			'last_edit'   => _x( 'Last Edit', 'BuddyDrive admin Last Edit column header',          'buddydrive' )
-		);
+		));
 	}
 
 	/**
@@ -1038,5 +1038,9 @@ class BuddyDrive_List_Table extends WP_List_Table {
 		$date = $item['post_modified_gmt'];
 		$date = bp_format_time( strtotime( $date ), true, false );
 		echo apply_filters( 'buddydrive_get_item_date', $date );
+	}
+
+	function column_default( $item = array(), $column_name ) {
+		return apply_filters( "buddydrive_list_table_custom_column", '', $column_name, (int) $item['ID'] );
 	}
 }

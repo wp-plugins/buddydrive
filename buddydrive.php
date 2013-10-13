@@ -3,7 +3,7 @@
 Plugin Name: Buddydrive
 Plugin URI: http://imathi.eu/tag/buddydrive/
 Description: A plugin to share files, the BuddyPress way!
-Version: 1.1.1
+Version: 1.2-beta1
 Author: imath
 Author URI: http://imathi.eu/
 License: GPLv2
@@ -58,9 +58,9 @@ class BuddyDrive {
 	
 	private function __construct() { /* Do nothing here */ }
 	
-	public function __clone() { _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'buddydrive' ), '1.1.1' ); }
+	public function __clone() { _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'buddydrive' ), '1.2-beta1' ); }
 
-	public function __wakeup() { _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'buddydrive' ), '1.1.1' ); }
+	public function __wakeup() { _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'buddydrive' ), '1.2-beta1' ); }
 
 	public function __isset( $key ) { return isset( $this->data[$key] ); }
 
@@ -87,7 +87,7 @@ class BuddyDrive {
 
 		/** Version ***********************************************************/
 
-		$this->version    = '1.1.1';
+		$this->version    = '1.2-beta1';
 
 		/** Paths *************************************************************/
 

@@ -183,6 +183,7 @@ function buddydrive_file_downloader() {
 		
 		// we have a file! let's force download.
 		if( file_exists( $buddydrive_file_path ) && !empty( $can_donwload ) ){
+			do_action( 'buddydrive_file_downloaded', $buddydrive_file );
 			status_header( 200 );
 			header( 'Cache-Control: cache, must-revalidate' );
 			header( 'Pragma: public' );
