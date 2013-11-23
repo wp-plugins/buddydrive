@@ -27,6 +27,24 @@ function buddydrive_get_js_l10n() {
 	return $buddydrivel10n;
 }
 
+/**
+ * Displays the user's BuddyDrive root url or a link to it
+ * 
+ * @param  boolean $user_id the id of the user
+ * @uses buddydrive_get_user_buddydrive_url() to get the user's BuddyDrive url
+ * @return string outputs the link to user's BuddyDrive
+ */
+function buddydrive_user_buddydrive_url( $linkonly = false ) {
+	$url = buddydrive_get_user_buddydrive_url();
+
+	if( !empty($linkonly ) ) {
+		echo $url;
+	} else {
+		$output = apply_filters( 'buddydrive_user_buddydrive_url', '<a href="'. $url .'" title="' . __( 'Choose or add a file from my profile', 'buddydrive' ) .'" class="buddydrive-profile"><i class="bd-icon-createfile"></i> ' . __( 'Add file', 'buddydrive' ) .'</a>' );
+		echo $output;
+	}
+	
+}
 
 /**
  * Builds the user's BuddyDrive root url

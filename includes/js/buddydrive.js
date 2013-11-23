@@ -116,7 +116,7 @@ function updateBuddyQuota() {
         jQuery('#buddy-quota').html(response);
     });
 
-	return false;
+	return;
 }
 
 
@@ -280,7 +280,9 @@ jQuery(document).ready(function($){
 		$(this).show();
 	});
 	
-	$('#buddy-new-file').on('click', function(){
+	$('#buddy-new-file').on('click', function( event ){
+		event.preventDefault();
+
 		if( !$('#buddydrive-folder-editor').hasClass('hide') )
 			$('#buddydrive-folder-editor').addClass('hide');
 		
@@ -291,10 +293,12 @@ jQuery(document).ready(function($){
 			
 		$('#buddydrive-file-uploader').removeClass('hide');
 		
-		return false;
+		return;
 	});
 	
-	$('#buddy-new-folder').on('click', function(){
+	$('#buddy-new-folder').on('click', function( event ){
+		event.preventDefault();
+
 		if( !$('#buddydrive-file-uploader').hasClass('hide') )
 			$('#buddydrive-file-uploader').addClass('hide');
 			
@@ -307,7 +311,7 @@ jQuery(document).ready(function($){
 			
 		$('#buddydrive-folder-editor').removeClass('hide');
 		
-		return false;
+		return;
 	});
 	
 	$('#buddydrive-sel-all').on('change', function(){
@@ -320,10 +324,12 @@ jQuery(document).ready(function($){
 			$(this).attr('checked', status );
 		});
 		
-		return false;
+		return;
 	})
 
-	$('#buddy-delete-item').on('click', function(){
+	$('#buddy-delete-item').on('click', function( event ){
+		event.preventDefault();
+
 		var itemlist="";
 		var count = 0;
 		
@@ -348,7 +354,7 @@ jQuery(document).ready(function($){
 		
 		if( count == 0 ) {
 			alert( pluploadL10n.cbs_message );
-			return false;
+			return;
 		}
 		
 		var confirm_message = pluploadL10n.confirm_delete.replace( '%d', count );
@@ -365,7 +371,7 @@ jQuery(document).ready(function($){
 			
 				if( response['result'] == 0 ){
 					alert( pluploadL10n.delete_error_message );
-					return false;
+					return;
 				} else {
 					
 					for( i in response['items'] ){
@@ -384,10 +390,12 @@ jQuery(document).ready(function($){
 		
 		}
 
-		return false;
+		return;
 	});
 	
-	$('#buddy-edit-item').on('click', function(){
+	$('#buddy-edit-item').on('click', function( event ){
+		event.preventDefault();
+
 		var count = 0;
 		var item;
 		
@@ -421,21 +429,26 @@ jQuery(document).ready(function($){
 		    } );
 		}
 		
-		return false;
+		return;
 	});
 	
-	$('.cancel-step').on('click', function(){
+	$('.cancel-step').on('click', function( event ){
+		event.preventDefault();
+
 		updateMediaForm();
-		return false;
+		return;
 	});
 	
-	$('#buddydrive-forms').on('click', '.cancel-item', function(){
+	$('#buddydrive-forms').on('click', '.cancel-item', function( event ){
+		event.preventDefault();
+
 		$('#buddydrive-edit-item').html('');
 		$('#buddydrive-edit-item').addClass('hide');
-		return false;
+		return;
 	});
 
-	$('#buddydrive-forms').on('submit', '#buddydrive-item-edit-form', function(){
+	$('#buddydrive-forms').on('submit', '#buddydrive-item-edit-form', function( event ){
+		event.preventDefault();
 
 		var item_id = $('#buddydrive-item-id').val();
 		var item_title = $('#buddydrive-item-title').val();
@@ -474,7 +487,7 @@ jQuery(document).ready(function($){
 				message += errors[i] +"\n";
 			}
 			alert( message );
-			return false;
+			return;
 		}
 
 		var data = {
@@ -515,10 +528,12 @@ jQuery(document).ready(function($){
 				}
 		    }, 'json' );
 
-		return false;
+		return;
 	});
 	
-	$('.next-step').on('click', function(){
+	$('.next-step').on('click', function( event ){
+		event.preventDefault();
+
 		var parent = $(this).parent().parent().parent();
 		
 		var nextstep = parent.find('.hide').first();
@@ -530,7 +545,7 @@ jQuery(document).ready(function($){
 		else
 			nextstep.removeClass('hide');
 			
-		return false;
+		return;
 	});
 	
 	$('#buddydrive-forms').on('change', 'select', function(){
@@ -538,7 +553,7 @@ jQuery(document).ready(function($){
 		var id_details, id_settings;
 		
 		if( $(this).attr('id') == 'buddygroup' || $(this).attr('id') == 'folders' ){
-			return false;
+			return;
 		} else if( $(this).attr('id') == 'buddydrive-sharing-options' ) {
 			id_details = '#buddydrive-sharing-details';
 			id_settings = '#buddydrive-sharing-settings';
@@ -570,10 +585,12 @@ jQuery(document).ready(function($){
 				break;
 		}
 		
-		return false;
+		return;
 	});
 	
-	$('#buddydrive-dir').on('click', '.buddydrive-load-more a', function(){
+	$('#buddydrive-dir').on('click', '.buddydrive-load-more a', function( event ){
+		event.preventDefault();
+
 		var currentfolder = buddyscope = 0;
 		var itemlist = '';
 		
@@ -615,15 +632,17 @@ jQuery(document).ready(function($){
 			loadmore_tr.hide();
 	    });
 		
-		return false;
+		return;
 	});
 	
-	$('#buddydrive-folder-editor-form').on('submit', function(){
+	$('#buddydrive-folder-editor-form').on( 'submit', function( event ){
+		event.preventDefault();
+
 		var buddygroup, buddyshared, buddypass;
 		
 		if( $('#buddydrive-folder-title').val().length < 1 ) {
 			alert( pluploadL10n.title_needed );
-			return false;
+			return;
 		} 
 			
 		if( $('#buddyfolder-sharing-settings').val().length > 1 ) {
@@ -633,7 +652,7 @@ jQuery(document).ready(function($){
 				case 'password':
 					if( $('#buddypass').val().length < 1 ){
 						alert( pluploadL10n.pwd_needed );
-						return false;
+						return;
 					} else {
 						buddypass = $('#buddypass').val();
 					}
@@ -661,13 +680,15 @@ jQuery(document).ready(function($){
 				$('.cancel-folder').trigger('click');
 		    });
 			
-			return false;
+			return;
 		}
 		
-		return false;
+		return;
 	});
 	
-	$('.cancel-folder').on('click', function(){
+	$('.cancel-folder').on('click', function( event ){
+		event.preventDefault();
+
 		$('.next-step').each( function(){
 			$(this).show();
 		});
@@ -680,10 +701,12 @@ jQuery(document).ready(function($){
 		jQuery('#buddyfolder-sharing-options').val('private');
 		jQuery('#buddyfolder-sharing-settings').val('private');
 		
-		return false;
+		return;
 	});
 	
-	$('#buddydrive-dir').on('click', '.buddyfolder', function(){
+	$('#buddydrive-dir').on('click', '.buddyfolder', function( event ){
+		event.preventDefault();
+
 		var buddyscope;
 		
 		$.cookie( 'buddydrive-oldestpage', 1, {path: '/'} );
@@ -715,25 +738,30 @@ jQuery(document).ready(function($){
 	        $("#buddydrive-dir tbody").prepend(response[0]);
 	    }, 'json' );
 		
-		return false;
+		return;
 		
 	});
 
-	$('#buddydrive-dir').on('click', '.dismiss', function(){
+	$('#buddydrive-dir').on('click', '.dismiss', function( event ){
+		event.preventDefault();
+
 		$(this).parent().parent().parent().parent().fadeOut(200, function(){
 				$(this).remove();
 			});
-		return false;
+		return;
 	});
 
-	$('#buddydrive-dir').on('click', '.buddydrive-row-actions a', function(){
+	$('#buddydrive-dir').on('click', '.buddydrive-row-actions a', function( event ){
+
 		if( $(this).hasClass('buddydrive-private-message') )
 			return true;
+
+		event.preventDefault();
 
 		if( $(this).hasClass('buddydrive-group-activity') || $(this).hasClass('buddydrive-profile-activity') ) {
 
 			if( $(this).hasClass('loading') || $(this).hasClass('shared') )
-				return false;
+				return;
 
 			target = $(this).parent().parent().parent().parent().find('.buddydrive-item-cb').val();
 			link = $(this).parent().parent().parent().find('a').first().attr('href');
@@ -775,7 +803,7 @@ jQuery(document).ready(function($){
 		}
 
 		if( $(this).hasClass('buddydrive-remove-group') )
-			return false;
+			return;
 		
 		var show = $(this).attr('class').replace('buddydrive-show-', ''); 
 		var desc = $(this).parent().parent().parent().find('.buddydrive-ra-'+show);
@@ -793,7 +821,7 @@ jQuery(document).ready(function($){
 		if( show == 'link' )
 			desc.find('input').focus();
 
-		return false;
+		return;
 	});
 
 	$.fn.selectRange = function(start, end) {
@@ -813,7 +841,7 @@ jQuery(document).ready(function($){
 
 	$('#buddydrive-dir').on('focus', '.buddydrive-file-input', function() {
 		$(this).selectRange( 0, $(this).val().length );
-		return false;
+		return;
 	});
 	
 
@@ -851,7 +879,7 @@ jQuery(document).ready(function($){
 
 				alert( pluploadL10n.one_at_a_time );
 
-				return false;
+				return;
 			}
 			
 			if( $('#buddyfile-desc').val().length > 1 )
@@ -864,7 +892,7 @@ jQuery(document).ready(function($){
 					case 'password':
 						if( $('#buddypass').val().length < 1 ){
 							alert( pluploadL10n.pwd_needed );
-							return false;
+							return;
 						} else {
 							up.settings.multipart_params.buddypass = $('#buddypass').val();
 						}

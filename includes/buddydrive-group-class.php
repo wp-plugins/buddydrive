@@ -65,7 +65,7 @@ class BuddyDrive_Group extends BP_Group_Extension {
 	 * 
 	 * @return boolean false
 	 */
-	function create_screen() {
+	function create_screen( $group_id = null ) {
 		return false;
 	}
 
@@ -76,7 +76,7 @@ class BuddyDrive_Group extends BP_Group_Extension {
 	 * 
 	 * @return boolean false
 	 */
-	function create_screen_save() {
+	function create_screen_save( $group_id = null ) {
 		return false;
 	}
 
@@ -92,7 +92,7 @@ class BuddyDrive_Group extends BP_Group_Extension {
 	 * @uses is_admin() to check if we're in WP backend
 	 * @return string html output
 	 */
-	function edit_screen( $group_id = false ) {
+	function edit_screen( $group_id = null ) {
 			
 		$group_id   = empty( $group_id ) ? bp_get_current_group_id() : $group_id;
 		$checked = groups_get_groupmeta( $group_id, '_buddydrive_enabled' );
@@ -135,7 +135,7 @@ class BuddyDrive_Group extends BP_Group_Extension {
 	 * @uses bp_core_redirect() to avoid some refreshing stuff
 	 * @uses bp_get_group_permalink() to redirect to
 	 */
-	function edit_screen_save( $group_id = 0 ) {
+	function edit_screen_save( $group_id = null ) {
 
 		if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
 			return false;
@@ -173,11 +173,11 @@ class BuddyDrive_Group extends BP_Group_Extension {
 	 * 
 	 * @since version 1.1
 	 * 
-	 * @param  integer $item_id group id
+	 * @param  integer $group_id group id
 	 * @uses  BuddyDrive_Group::edit_screen() to output the form
 	 */
-	function admin_screen( $item_id ) {
-		$this->edit_screen( $item_id );
+	function admin_screen( $group_id = null ) {
+		$this->edit_screen( $group_id );
 	}
 
 	/**
@@ -185,11 +185,11 @@ class BuddyDrive_Group extends BP_Group_Extension {
 	 *
 	 * @since version 1.1
 	 * 
-	 * @param integer $item_id the group id
+	 * @param integer $group_id the group id
 	 * @uses BuddyDrive_Group::edit_screen_save() to save the settings
 	 */
-	function admin_screen_save( $item_id ) {
-		$this->edit_screen_save( $item_id );
+	function admin_screen_save( $group_id = null ) {
+		$this->edit_screen_save( $group_id );
 	}
 
 	/**
@@ -204,7 +204,7 @@ class BuddyDrive_Group extends BP_Group_Extension {
 		$group_id = bp_get_current_group_id();
 		?>
 		
-		<div class="buddydrive-crumbs"><a href="<?php buddydrive_component_home_url();?>" name="home" id="buddydrive-home" data-group="<?php echo $group_id;?>"><i class="bd-icon-home"></i> <?php _e( 'Root folder', 'buddydrive');?></a></div>
+		<div class="buddydrive-crumbs in-group"><a href="<?php buddydrive_component_home_url();?>" name="home" id="buddydrive-home" data-group="<?php echo $group_id;?>"><i class="bd-icon-home"></i> <?php _e( 'Root folder', 'buddydrive');?></a> <?php buddydrive_user_buddydrive_url();?></div>
 		
 		<div class="buddydrive single-group" role="main">
 			<?php buddydrive_get_template('buddydrive-loop');?>

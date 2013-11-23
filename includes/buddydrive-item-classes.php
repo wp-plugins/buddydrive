@@ -9,8 +9,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 * @since 1.0
 * 
 */
-class BuddyDrive_Item
-{
+class BuddyDrive_Item {
+
 	public $user_id;
 	public $id;
 	public $type;
@@ -21,19 +21,12 @@ class BuddyDrive_Item
 	public $guid;
 	public $metas;
 	
-
-	function buddydrive_item( $id = 0 )
-	{
-		$this->__construct( $id );
-	}
 	
-	function __construct( $id = 0 )
-	{
+	function __construct( $id = 0 ){
 		if( !empty( $id ) ) {
 			$this->id = $id;
 			$this->populate();
 		}
-			
 	}
 
 	/**
@@ -41,8 +34,7 @@ class BuddyDrive_Item
 	 *
 	 * @uses WP_Query
 	 */
-	function populate() 
-	{
+	function populate() {
 		
 		$query_args = array(
 			'post_status'	 => 'publish',
@@ -62,8 +54,7 @@ class BuddyDrive_Item
 	 * @uses wp_insert_post() to add a new item
 	 * @return int $result the id of the item created
 	 */
-	function save()
-	{
+	function save() {
 		$this->id               = apply_filters_ref_array( 'buddydrive_item_id_before_save',         array( $this->id,                &$this ) );
 		$this->type             = apply_filters_ref_array( 'buddydrive_item_user_id_before_save',    array( $this->type,              &$this ) );
 		$this->user_id          = apply_filters_ref_array( 'buddydrive_item_user_id_before_save',    array( $this->user_id,           &$this ) );
@@ -171,8 +162,7 @@ class BuddyDrive_Item
 	 * @uses paginate_links()
 	 * @uses add_query_arg()
 	 */
-	function get( $args ) 
-	{
+	function get( $args ) {
 		
 		// Only run the query once
 		if ( empty( $this->query ) ) {
@@ -337,8 +327,7 @@ class BuddyDrive_Item
 	/**
 	 * do we have items to show ?
 	 */
-	function have_posts() 
-	{
+	function have_posts() {
 		return $this->query->have_posts();
 	}
 
@@ -346,8 +335,7 @@ class BuddyDrive_Item
 	/**
 	 * Part of our BuddyDrive loop
 	 */
-	function the_post() 
-	{
+	function the_post() {
 		return $this->query->the_post();
 	}
 	
@@ -359,8 +347,7 @@ class BuddyDrive_Item
 	 * @global object $wpdb
 	 * @return array the list of file ids
 	 */
-	function get_buddydrive_folder_children( $folder_id = false ) 
-	{
+	function get_buddydrive_folder_children( $folder_id = false ) {
 		global $wpdb;
 		
 		if( empty( $folder_id ) )
@@ -381,8 +368,7 @@ class BuddyDrive_Item
 	 * @uses BuddyDrive_Items::get_buddydrive_folder_children() to get the files attached to the folder
 	 * @uses update_post_meta() to add privacy options
 	 */
-	function update_children( $folder_id = false, $metas = false ) 
-	{
+	function update_children( $folder_id = false, $metas = false ) {
 		if( empty( $folder_id ) || empty( $metas ) )
 			return false;
 			
@@ -408,8 +394,7 @@ class BuddyDrive_Item
 	 * @global object $wpdb
 	 * @return object the post_title, ID and post_type of the wanted ids
 	 */
-	function get_buddydrive_by_ids( $ids = array() ) 
-	{
+	function get_buddydrive_by_ids( $ids = array() ) {
 		global $wpdb;
 		
 		$buddydrive_items = false;
@@ -438,8 +423,7 @@ class BuddyDrive_Item
 	 * @uses update_user_meta() to eventually update user's quota
 	 * @return int number of deleted items
 	 */
-	function delete( $ids = false, $user_id = false )
-	{
+	function delete( $ids = false, $user_id = false ) {
 		global $wpdb;
 
 		$buddydrive_ids = $new_space = false;
@@ -515,8 +499,7 @@ class BuddyDrive_Item
 	 * @uses BuddyDrive_Item::get_buddydrive_folder_children() to get the file attached to a folder
 	 * @return int 1
 	 */
-	function remove_from_group( $item_id = false, $new_status = 'private' ) 
-	{
+	function remove_from_group( $item_id = false, $new_status = 'private' ) {
 		if( empty( $item_id ) )
 			return false;
 
@@ -546,8 +529,7 @@ class BuddyDrive_Item
 	 * @uses update_post_meta() to update the privacy option
 	 * @return boolean success or not
 	 */
-	function group_remove_items( $group_id = 0, $new_status = 'private' ) 
-	{
+	function group_remove_items( $group_id = 0, $new_status = 'private' ) {
 		global $wpdb;
 		
 		if( empty( $group_id ) )
@@ -575,13 +557,8 @@ class BuddyDrive_Item
 */
 class BuddyDrive_Uploader {
 
-	function buddydrive_uploader()
-	{
-		$this->__construct();
-	}
 	
-	function __construct()
-	{
+	function __construct() {
 		$this->setup_actions();
 		$this->includes();
 		$this->display();
@@ -590,16 +567,14 @@ class BuddyDrive_Uploader {
 	/**
 	 * filters wp_footer to enqueue the needed scripts
 	 */
-	function setup_actions() 
-	{
+	function setup_actions() {
 		add_action( 'wp_footer', array( $this, 'enqueue_scripts' ), 1 );
 	}
 
 	/**
 	 * Includes the needed php files
 	 */
-	function includes() 
-	{
+	function includes() {
 		require_once(ABSPATH . "wp-admin" . '/includes/file.php');
 		require_once(ABSPATH . "wp-admin" . '/includes/media.php');
 	}
@@ -610,8 +585,7 @@ class BuddyDrive_Uploader {
 	 * @uses wp_enqueue_script()
 	 * @uses wp_localize_script() to translate javascript messages
 	 */
-	function enqueue_scripts()
-	{
+	function enqueue_scripts() {
 		wp_enqueue_script( 'buddydrive', buddydrive_get_includes_url() .'js/buddydrive.js', array( 'plupload-all', 'jquery' ), buddydrive_get_version(), true );
 			
 		$pluploadmessages = array(

@@ -53,7 +53,7 @@ class BuddyDrive_Component extends BP_Component {
 	 *
 	 * @uses bp_is_active() to check if group component is active
 	 */
-	function includes() {
+	function includes( $includes = array() ) {
 
 		// Files to include
 		$includes = array(
@@ -84,7 +84,7 @@ class BuddyDrive_Component extends BP_Component {
 	 * @uses buddypress() to get the instance data
 	 * @uses buddydrive_get_slug() to get BuddyDrive root slug
 	 */
-	function setup_globals() {
+	function setup_globals( $args = array() ) {
 		$bp = buddypress();
 
 		// Set up the $globals array to be passed along to parent::setup_globals()
@@ -115,7 +115,7 @@ class BuddyDrive_Component extends BP_Component {
 	 * @uses buddydrive_get_friends_subnav_name() to get friends subnav name
 	 * @uses buddydrive_get_friends_subnav_slug() to get friends subnav slug
 	 */
-	function setup_nav() {
+	function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 		$bp =  buddypress();
 		
 		$main_nav = array(
@@ -169,7 +169,7 @@ class BuddyDrive_Component extends BP_Component {
 	 * @uses buddydrive_get_friends_subnav_slug() to get friends subnav slug
 	 * @uses bp_is_active() to check for the friends component
 	 */
-	function setup_admin_bar() {
+	function setup_admin_bar( $wp_admin_nav = array() ) {
 
 		// Prevent debug notices
 		$wp_admin_nav = array();

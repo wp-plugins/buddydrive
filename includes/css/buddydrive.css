@@ -275,3 +275,8 @@ div.item-list-tabs ul li#buddydrive-action-nav a span{
 #bp-default table#buddydrive-dir th{
 	text-align:left;
 }
+
+.in-group .buddydrive-profile {
+	float:right;
+	display:block;
+}

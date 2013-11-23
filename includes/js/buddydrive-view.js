@@ -46,7 +46,9 @@ jQuery(document).ready(function($){
 	if ( '-1' != window.location.search.indexOf('folder-') )
 		openFolder( window.location.search );
 	
-	$('#buddydrive-dir').on('click', '.buddydrive-load-more a', function(){
+	$('#buddydrive-dir').on('click', '.buddydrive-load-more a', function( event ){
+		event.preventDefault();
+
 		var currentfolder = group_id = 0;
 		
 		$('.buddytree').each(function(){
@@ -85,10 +87,12 @@ jQuery(document).ready(function($){
 			loadmore_tr.hide();
 	    });
 		
-		return false;
+		return;
 	});
 	
-	$('#buddydrive-dir').on('click', '.buddyfolder', function(){
+	$('#buddydrive-dir').on('click', '.buddyfolder', function( event ){
+		event.preventDefault();
+
 		var buddyscope = false;
 		
 		$.cookie( 'buddydrive-oldestpage', 1, {path: '/'} );
@@ -118,18 +122,20 @@ jQuery(document).ready(function($){
 	        $("#buddydrive-dir tbody").prepend(response[0]);
 	    }, 'json' );
 		
-		return false;
+		return;
 		
 	});
 
-	$('#buddydrive-dir').on('click', '.buddydrive-row-actions a', function(){
+	$('#buddydrive-dir').on('click', '.buddydrive-row-actions a', function( event ){
+		event.preventDefault();
+
 		if( $(this).hasClass('buddydrive-private-message') )
 			return true;
 
 		if( $(this).hasClass('buddydrive-group-activity') ) {
 
 			if( $(this).hasClass('loading') )
-				return false;
+				return;
 
 			target = $(this).parent().parent().parent().find('a').first().attr('data-file');
 			
@@ -158,7 +164,7 @@ jQuery(document).ready(function($){
 
 		if( $(this).hasClass('buddydrive-remove-group') ) {
 			if( $(this).hasClass('loading') )
-				return false;
+				return;
 			
 			target = $(this).parent().parent().parent().find('a').first().attr('data-file');
 			
@@ -185,7 +191,7 @@ jQuery(document).ready(function($){
 		    });
 
 
-			return false;
+			return;
 		}
 		
 		var show = $(this).attr('class').replace('buddydrive-show-', ''); 
@@ -204,7 +210,7 @@ jQuery(document).ready(function($){
 		if( show == 'link' )
 			desc.find('input').focus();
 
-		return false;
+		return;
 	});
 
 	$.fn.selectRange = function(start, end) {
@@ -222,9 +228,11 @@ jQuery(document).ready(function($){
 	 });
 	};
 
-	$('#buddydrive-dir').on('focus', '.buddydrive-file-input', function() {
+	$('#buddydrive-dir').on('focus', '.buddydrive-file-input', function( event ) {
+		event.preventDefault();
+
 		$(this).selectRange( 0, $(this).val().length );
-		return false;
+		return;
 	});
 	
 });
