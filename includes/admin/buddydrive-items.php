@@ -813,17 +813,24 @@ class BuddyDrive_List_Table extends WP_List_Table {
 	 * @uses WP_List_Table::single_row_columns() to display the row
 	 */
 	function single_row( $item = array() ) {
-		static $row_class = '';
+		static $even = false;
 
-		if ( empty( $row_class ) ) {
-			$row_class = ' class="alternate odd"';
+		$row_classes = array();
+
+		if ( $even ) {
+			$row_classes = array( 'even' );
 		} else {
-			$row_class = ' class="even"';
+			$row_classes = array( 'alternate', 'odd' );
 		}
+
+		$row_classes = apply_filters( 'buddydrive_list_table_single_row_class', $row_classes, $item['ID'] );
+		$row_class = ' class="' . implode( ' ', $row_classes ) . '"';
 
 		echo '<tr' . $row_class . ' id="item-' . esc_attr( $item['ID'] ) . '" data-parent_id="' . esc_attr( $item['ID'] ) . '" data-root_id="' . esc_attr( $item['ID'] ) . '">';
 		echo $this->single_row_columns( $item );
 		echo '</tr>';
+
+		$even = ! $even;
 	}
 
 	/**
