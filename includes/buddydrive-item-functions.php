@@ -1,7 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Populates the translation array for js messages
@@ -37,10 +37,10 @@ function buddydrive_get_js_l10n() {
 function buddydrive_user_buddydrive_url( $linkonly = false ) {
 	$url = buddydrive_get_user_buddydrive_url();
 
-	if( !empty($linkonly ) ) {
+	if( ! empty($linkonly ) ) {
 		echo $url;
 	} else {
-		$output = apply_filters( 'buddydrive_user_buddydrive_url', '<a href="'. $url .'" title="' . __( 'Choose or add a file from my profile', 'buddydrive' ) .'" class="buddydrive-profile"><i class="bd-icon-createfile"></i> ' . __( 'Add file', 'buddydrive' ) .'</a>' );
+		$output = apply_filters( 'buddydrive_user_buddydrive_url', '<a href="'. $url .'" title="' . __( 'Choose or add a file from my profile', 'buddydrive' ) .'" class="buddydrive-profile"><i class="icon bd-icon-newfile"></i> ' . __( 'Manage files', 'buddydrive' ) .'</a>' );
 		echo $output;
 	}
 	
@@ -57,7 +57,7 @@ function buddydrive_user_buddydrive_url( $linkonly = false ) {
  * @return string $buddydrive_link the link to user's BuddyDrive
  */
 function buddydrive_get_user_buddydrive_url( $user_id = 0 ) {
-	if( empty( $user_id ) ) {
+	if ( empty( $user_id ) ) {
 		$displayed_user_id = bp_displayed_user_id();
 		$user_id = !empty( $displayed_user_id ) ? $displayed_user_id : bp_loggedin_user_id();
 	}
@@ -83,12 +83,12 @@ function buddydrive_get_user_buddydrive_url( $user_id = 0 ) {
 function buddydrive_get_group_buddydrive_url( $group_id = 0 ) {
 	$buddydrive_link = false;
 
-	if( !empty( $group_id ) )
+	if ( ! empty( $group_id ) )
 		$group = groups_get_group( array( 'group_id' => $group_id ) );
 	else
 		$group = groups_get_current_group();
 
-	if( !empty( $group ) ) {
+	if ( ! empty( $group ) ) {
 		$group_link = bp_get_group_permalink( $group );
 
 		$buddydrive_link = trailingslashit( $group_link . buddydrive_get_slug() );
@@ -110,7 +110,7 @@ function buddydrive_get_group_buddydrive_url( $group_id = 0 ) {
  * @return string  $buddydrive_friends the url to the shared by friends BuddyDrive
  */
 function buddydrive_get_friends_buddydrive_url( $user_id = 0 ) { 
-	if( empty( $user_id ) )
+	if ( empty( $user_id ) )
 		$user_id = bp_displayed_user_id();
 
 	$user_domain = bp_core_get_user_domain( $user_id );
@@ -131,7 +131,7 @@ function buddydrive_get_friends_buddydrive_url( $user_id = 0 ) {
  * @return boolean true or false
  */
 function buddydrive_is_group() {
-	if( bp_is_groups_component() && bp_is_single_item() && bp_is_current_action( buddydrive_get_slug() ) )
+	if ( bp_is_groups_component() && bp_is_single_item() && bp_is_current_action( buddydrive_get_slug() ) )
 		return true;
 		
 	else return false;
@@ -202,7 +202,7 @@ function buddydrive_save_item( $args = '' ) {
 	$buddydrive_item->guid             = $guid;
 	$buddydrive_item->metas            = $metas;
 	
-	if ( !$buddydrive_item->save() )
+	if ( ! $buddydrive_item->save() )
 		return false;
 		
 	do_action( 'buddydrive_save_item', $buddydrive_item->id, $params );
@@ -224,7 +224,7 @@ function buddydrive_save_item( $args = '' ) {
  */
 function buddydrive_update_item( $args = '', $item = false ) {
 	
-	if( empty( $item ) )
+	if ( empty( $item ) )
 		return false;
 		
 	$old_pass = !empty( $item->password ) ? $item->password : false;
@@ -242,15 +242,16 @@ function buddydrive_update_item( $args = '', $item = false ) {
 		'privacy'          => $item->check_for,
 		'password'         => $old_pass,
 		'group'            => $old_group,
+		'buddydrive_meta'  => false
 	);
 	
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 	
 	// if the parent folder was set, then we need to define a default privacy status
-	if( !empty( $item->post_parent ) && empty( $parent_folder_id ) )
+	if ( ! empty( $item->post_parent ) && empty( $parent_folder_id ) )
 		$privacy = 'private';
-	elseif( !empty( $parent_folder_id ) && $type == buddydrive_get_file_post_type() )
+	elseif ( ! empty( $parent_folder_id ) && $type == buddydrive_get_file_post_type() )
 		$privacy = get_post_meta( $parent_folder_id, '_buddydrive_sharing_option', true );
 
 	// building the meta object
@@ -263,6 +264,9 @@ function buddydrive_update_item( $args = '', $item = false ) {
 
 	if( $meta->privacy == 'groups' )
 		$meta->groups = !empty( $group ) ? $group : get_post_meta( $parent_folder_id, '_buddydrive_sharing_groups', true );
+
+	if( ! empty( $buddydrive_meta ) )
+		$meta->buddydrive_meta = $buddydrive_meta;
 		
 	// preparing the args for buddydrive_save_item
 	$params['metas'] = $meta;
@@ -274,7 +278,7 @@ function buddydrive_update_item( $args = '', $item = false ) {
 	
 	$modified = buddydrive_save_item( $params );
 	
-	if( empty( $modified ) )
+	if ( empty( $modified ) )
 		return false;
 	
 	do_action( 'buddydrive_update_item', $params, $args, $item );
@@ -302,12 +306,12 @@ function buddydrive_delete_item( $args = '' ) {
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
-	if( !empty( $ids ) && !is_array( $ids ) )
+	if ( ! empty( $ids ) && ! is_array( $ids ) )
 		$ids = explode( ',', $ids );
 
 	$buddydrive_item = new BuddyDrive_Item();
 
-	if( $items = $buddydrive_item->delete( $ids, $user_id ) )
+	if ( $items = $buddydrive_item->delete( $ids, $user_id ) )
 		return $items;
 
 	else
@@ -323,7 +327,7 @@ function buddydrive_delete_item( $args = '' ) {
  * @return array BuddyDrive items
  */
 function buddydrive_get_buddyfiles_by_ids( $ids = array() ) {
-	if( empty( $ids ) )
+	if ( empty( $ids ) )
 		return false;
 		
 	$buddydrive_item = new BuddyDrive_Item();
@@ -341,12 +345,12 @@ function buddydrive_get_buddyfiles_by_ids( $ids = array() ) {
  * @return boolean true or false
  */
 function buddydrive_remove_buddyfiles_from_group( $group_id = 0 ) {
-	if( empty( $group_id ) )
+	if ( empty( $group_id ) )
 		return false;
 		
 	$group = groups_get_group( array( 'group_id' => $group_id ) );
 
-	if( empty( $group ) )
+	if ( empty( $group ) )
 		$new_status = 'private';
 
 	else {
@@ -357,7 +361,6 @@ function buddydrive_remove_buddyfiles_from_group( $group_id = 0 ) {
 	
 	return $buddydrive_item->group_remove_items( $group_id, $new_status );
 }
-
 add_action( 'groups_before_delete_group', 'buddydrive_remove_buddyfiles_from_group', 1 );
 
 
@@ -373,22 +376,22 @@ add_action( 'groups_before_delete_group', 'buddydrive_remove_buddyfiles_from_gro
  * @return object the BuddyDrive item
  */
 function buddydrive_get_buddyfile( $name = false, $type = false ) {
-	if( empty( $name ) )
+	if ( empty( $name ) )
 		return false;
 
-	if( empty( $type ) )
+	if ( empty( $type ) )
 		$type = buddydrive_get_file_post_type();
 		
 	$buddydrive_file = new BuddyDrive_Item();
 	
-	if( is_numeric( $name ) )
+	if ( is_numeric( $name ) )
 		$args = array( 'id' => $name, 'type' => $type );
 	else
 		$args = array( 'name' => $name, 'type' => $type );
 		
 	$buddydrive_file->get( $args );
 	
-	if( empty( $buddydrive_file->query->post->ID ) )
+	if ( empty( $buddydrive_file->query->post->ID ) )
 		return false;
 	
 	$buddyfile = new stdClass();
@@ -405,7 +408,7 @@ function buddydrive_get_buddyfile( $name = false, $type = false ) {
 	$buddyitem_slug = $buddyfile->mime_type = 'folder';
 
 	// do we have a file ?
-	if( $buddyfile->post_type == buddydrive_get_file_post_type() ) {
+	if ( $buddyfile->post_type == buddydrive_get_file_post_type() ) {
 		$buddyitem_slug = 'file';
 		$buddyfile->file = basename( $buddydrive_file->query->post->guid );
 		$buddyfile->path = buddydrive()->upload_dir .'/'. $buddyfile->file;
@@ -423,7 +426,7 @@ function buddydrive_get_buddyfile( $name = false, $type = false ) {
 	
 	$buddyfile->check_for = 'private';
 	
-	if( !empty( $privacy ) ) {
+	if ( ! empty( $privacy ) ) {
 		switch ( $privacy ) {
 			case 'private' :
 				$buddyfile->check_for = 'private';
@@ -454,7 +457,6 @@ function buddydrive_get_buddyfile( $name = false, $type = false ) {
 	}
 	
 	return $buddyfile;
-	
 }
 
 
@@ -473,7 +475,7 @@ function buddydrive_remove_item_from_group( $item_id =false , $group_id = false 
 
 	$group = groups_get_group( array( 'group_id' => $group_id ) );
 
-	if( empty( $group ) )
+	if ( empty( $group ) )
 		$new_status = 'private';
 
 	else {
@@ -491,7 +493,6 @@ function buddydrive_remove_item_from_group( $item_id =false , $group_id = false 
  * @param array $attr
  * @param string $url
  * @param array $rawattr
- * @global int $blog_id
  * @uses is_multisite() to check for multisite config
  * @uses bp_get_root_blog_id() to get the root blog id
  * @uses switch_to_blog() to change for root blog id
@@ -508,15 +509,14 @@ function buddydrive_remove_item_from_group( $item_id =false , $group_id = false 
  * @return string $embed the html output
  */
 function wp_embed_handler_buddydrive( $matches, $attr, $url, $rawattr ) {
-	global $blog_id;
 	
 	$link = $title = $icon = $content = $mime_type = $filelist = false;
-	$current_blog = $blog_id;
+	$current_blog = get_current_blog_id();
 	
-	if( is_multisite() && $current_blog != bp_get_root_blog_id() )
+	if ( is_multisite() && $current_blog != bp_get_root_blog_id() )
 		switch_to_blog( bp_get_root_blog_id() );
 
-	if( $matches[1] == 'file' ) {
+	if ( $matches[1] == 'file' ) {
 		$buddyfile = buddydrive_get_buddyfile( $matches[2], buddydrive_get_file_post_type() );
 
 		if( empty( $buddyfile ) )
@@ -531,7 +531,7 @@ function wp_embed_handler_buddydrive( $matches, $attr, $url, $rawattr ) {
 
 		$buddyfile = buddydrive_get_buddyfile( $matches[2], buddydrive_get_folder_post_type() );
 
-		if( empty( $buddyfile ) )
+		if ( empty( $buddyfile ) )
 			return false;
 
 		$buddydrive_root_link = ( $buddyfile->check_for == 'groups' ) ? buddydrive_get_group_buddydrive_url( $buddyfile->group ) : buddydrive_get_user_buddydrive_url( $buddyfile->user_id ) ;
@@ -545,10 +545,10 @@ function wp_embed_handler_buddydrive( $matches, $attr, $url, $rawattr ) {
 	$embed .= '<td style="vertical-align:middle;width:60px;"><a href="'.$link.'" title="'.$title.'"><img src="'.$icon.'" alt="'.$mime_type.'" class="buddydrive-thumb"></a></td>';
 	$embed .= '<td style="vertical-align:middle"><h6 style="margin:0"><a href="'.$link.'" title="'.$title.'">'.$title.'</a></h6>';
 	
-	if( !empty( $content ) )
+	if ( ! empty( $content ) )
 		$embed .= '<p style="margin:0">'.$content.'</p>';
 
-	if( $matches[1] == 'folder' ) {
+	if ( $matches[1] == 'folder' ) {
 
 		if ( buddydrive_has_items( array( 'buddydrive_parent' => $buddyfile->ID ) ) ) {
 			$filelist = '<p style="margin-top:1em;margin-bottom:0">'.__('Files included in this folder :', 'buddydrive') .'</p><ul>';
@@ -565,7 +565,7 @@ function wp_embed_handler_buddydrive( $matches, $attr, $url, $rawattr ) {
 		
 	$embed .= '</td></tr></table>';
 	
-	if( is_multisite() && $current_blog != bp_get_root_blog_id() )
+	if ( is_multisite() && $current_blog != bp_get_root_blog_id() )
 		restore_current_blog();
 
 	return apply_filters( 'embed_buddydrive', $embed, $matches, $attr, $url, $rawattr );
@@ -589,20 +589,25 @@ function wp_embed_handler_buddydrive( $matches, $attr, $url, $rawattr ) {
 function buddydrive_get_quota_by_user_id( $user_id = 0 ) {
 	global $wpdb;
 
-	if( empty( $user_id ) )
+	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
 
 	$user_quota = intval( get_user_meta( $user_id, '_buddydrive_user_quota', true ) );
 
-	if( empty( $user_quota ) ) {
+	if ( empty( $user_quota ) ) {
 		// get's primary role for user
 		$user_roles = get_user_meta( $user_id, $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'capabilities', true );
-		$user_roles = array_keys( $user_roles );
-		$user_role = is_array( $user_roles ) ? $user_roles[0] : bp_get_option('default_role');
+
+		if ( ! empty( $user_roles ) ) {
+			$user_roles = array_keys( $user_roles );
+			$user_role  = is_array( $user_roles ) ? $user_roles[0] : bp_get_option('default_role');
+		} else {
+			$user_role = bp_get_option('default_role');
+		}
 
 		$option_user_quota = bp_get_option( '_buddydrive_user_quota', 1000 );
 
-		if( is_array( $option_user_quota ) )
+		if ( is_array( $option_user_quota ) )
 			$user_quota = !empty( $option_user_quota[$user_role] ) ? $option_user_quota[$user_role] : 1000;
 		else
 			$user_quota = $option_user_quota;
